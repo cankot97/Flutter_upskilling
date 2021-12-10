@@ -45,7 +45,15 @@ class _MyAppState extends State<MyApp>{
                       height: 500,
                       child: ListView.builder(
                         itemCount: snapshot.data?.length,
-                        padding: EdgeInsets.all(5),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            child: Container(
+                              margin: const EdgeInsets.all(7), 
+                              padding: const EdgeInsets.all(2),  
+                              child: Text(snapshot.data?[index].title ?? "Missing data"),                       
+                            ),
+                          );
+                        },
                         
                       )
                       );
