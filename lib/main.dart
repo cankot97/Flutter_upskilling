@@ -2,10 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:firstapp/item.dart';
-Future<Item> getDio() async {
-    final res = await Dio().get('https://jsonplaceholder.typicode.com/photos/1');
-    return Item.fromJson(res.data);
-  }
+
+Future<List<Item>> getDio() async {
+    final res = await Dio().get('https://jsonplaceholder.typicode.com/photos');
+    final parsed = res.data.cast<Map<String, dynamic>>();
+    return parsed.map<Item>((json) => Item.fromJson(json)).toList();
+}
 
 void main() => runApp(MaterialApp(
   home: MyApp()
@@ -24,7 +26,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp>{  
 
-  Future<Item>? fetchedItem;
+  Future<List<Item>>? fetchedItem;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +37,17 @@ class _MyAppState extends State<MyApp>{
         body: Center(
           child: Column(
             children: [
-              FutureBuilder<Item>(
+              FutureBuilder<List<Item>>(
                 future: fetchedItem,
                 builder: (context, snapshot) {
                   if(snapshot.hasData) {
                     return SizedBox(
                       height: 500,
-                      child: Text(snapshot.data?.title ?? "Default"),
+                      child: ListView.builder(
+                        itemCount: snapshot.data?.length,
+                        padding: EdgeInsets.all(5),
+                        
+                      )
                       );
                   } 
                   else if (fetchedItem == null){
