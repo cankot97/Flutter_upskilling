@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:firstapp/item.dart';
 
-class detail_screen  extends StatelessWidget {
+class DetailScreen  extends StatelessWidget {
 
   final Item? item;
 
-  const detail_screen({Key? key, this.item}) : super(key: key);
+  const DetailScreen({Key? key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          leading: () => Navigator.of(context).pop(),
+          title: const Text('Detail Page'),
           centerTitle: true,
         ),
         body: Center(
           child:  Column(
             children: [
               Image.network(item?.thumbnailUrl ?? "https://via.placeholder.com/150/92c952"),
-              
+              Text(item?.id.toString() ?? "no Item id"),
+              Text(item?.title.toString() ?? "No Item title")              
             ],
           )
-        ),
-        
-      ),
-      
+        ), 
     );
   }
 }

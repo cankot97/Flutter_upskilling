@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:firstapp/item.dart';
+import 'package:firstapp/detail_screen.dart';
 
 Future<List<Item>> getDio() async {
     final res = await Dio().get('https://jsonplaceholder.typicode.com/photos');
@@ -48,10 +49,16 @@ class _MyAppState extends State<MyApp>{
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white
+                              ),
                               margin: const EdgeInsets.all(7), 
                               padding: const EdgeInsets.all(2),  
                               child: Text(snapshot.data?[index].title ?? "Missing data"),                       
                             ),
+                            onTap: () => Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => DetailScreen(item: snapshot.data?[index]),
+                            )),
                           );
                         },
                         
